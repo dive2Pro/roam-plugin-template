@@ -4,7 +4,6 @@ import { defineConfig } from "vite";
 import packageJson from "./package.json";
 import { viteExternalsPlugin } from "vite-plugin-externals";
 import removeConsole from "vite-plugin-remove-console";
-import terser from "@rollup/plugin-terser";
 
 const getPackageName = () => {
   return packageJson.name;
@@ -27,7 +26,9 @@ const fileName = {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    reactPlugin(),
+    reactPlugin({
+      jsxRuntime: "classic",
+    }),
     removeConsole(),
     viteExternalsPlugin({
       "@blueprintjs/core": ["Blueprint", "Core"],
@@ -47,7 +48,6 @@ export default defineConfig({
       "react-dom/client": "ReactDOM",
       tslib: "TSLib",
     }),
-    terser()
   ],
   //   base: "./",
   //   // Makes HMR available for development
@@ -55,13 +55,18 @@ export default defineConfig({
 
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
+      entry: path.resolve(__dirname, "src/index.tsx"),
       name: getPackageNameCamelCase(),
       formats: ["es"],
       fileName: (format) => fileName[format],
     },
     outDir: "./",
     minify: true,
+    rollupOptions: {
+      output: {
+        assetFileNames: "extension.[ext]",
+      },
+    },
   },
   logLevel: "error",
 });
