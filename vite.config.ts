@@ -8,6 +8,7 @@ import removeConsole from "vite-plugin-remove-console";
 const getPackageName = () => {
   return packageJson.name;
 };
+console.log(process.env.NODE_ENV, " ---");
 
 const getPackageNameCamelCase = () => {
   try {
@@ -16,6 +17,14 @@ const getPackageNameCamelCase = () => {
     throw new Error("Name property in package.json is missing.");
   }
 };
+
+const isDev = process.env.NODE_ENV === "dev";
+
+const build = isDev
+  ? {
+    //   watch: {},
+    }
+  : {};
 
 const fileName = {
   es: `extension.js`,
@@ -29,7 +38,7 @@ export default defineConfig({
     reactPlugin({
       jsxRuntime: "classic",
     }),
-    removeConsole(),
+    isDev ? undefined : removeConsole(),
     viteExternalsPlugin({
       "@blueprintjs/core": ["Blueprint", "Core"],
       "@blueprintjs/datetime": ["Blueprint", "DateTime"],
@@ -67,6 +76,8 @@ export default defineConfig({
         assetFileNames: "extension.[ext]",
       },
     },
+    sourcemap: true,
+    ...build,
   },
   logLevel: "error",
 });

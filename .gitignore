@@ -2,5 +2,7 @@ node_modules
 .DS_Store
 *.local
 .env
-extension.*
+extension.js
+extension.css
+extension.js.map
 build/

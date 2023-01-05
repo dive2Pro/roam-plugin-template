@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "extension.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"tsc --watch\" \"NODE_ENV=dev vite build --watch\"",
     "build": "tsc && vite build",
     "preinstall": "npx only-allow pnpm"
   },
@@ -28,6 +28,7 @@
     "@typescript-eslint/parser": "5.47.1",
     "@vitejs/plugin-react": "3.0.0",
     "autoprefixer": "10.4.13",
+    "concurrently": "^7.6.0",
     "conventional-changelog-conventionalcommits": "5.0.0",
     "eslint": "8.31.0",
     "eslint-plugin-react": "7.31.11",
