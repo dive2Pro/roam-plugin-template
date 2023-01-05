@@ -1,12 +1,25 @@
-import { Button } from "@blueprintjs/core";
+import { Button, Dialog } from "@blueprintjs/core";
+import { useState } from "react";
 import ReactDom from "react-dom";
+import Extension from "./extension";
 
 import { appendToTopbar, extension_helper } from "./helper";
 
 function TopbarIcon() {
-    return <Button icon="add" minimal onClick={() => {
-      
-  }} />;
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button
+        icon="add"
+        onClick={() => {
+          setOpen((prev) => !prev);
+        }}
+      />
+      <Dialog onClose={() => setOpen((prev) => !prev)} isOpen={open}>
+        <Extension />
+      </Dialog>
+    </>
+  );
 }
 
 export function initTopbarIcon(extensionAPI: RoamExtensionAPI) {
