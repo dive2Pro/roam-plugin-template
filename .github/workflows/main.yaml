@@ -1,14 +1,19 @@
-name: Update Native-Dark
+name: Update
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'publish*'
 
 jobs:
-  update-native-dark:
+  publish:
     runs-on: ubuntu-latest
-
+    env:
+      FORK: 'dive2Pro'
+      USER: 'dive2Pro'
+      EMAIL: 'toylucklebo@gmail.com'
+      BRANCH: 'Native-Dark'
+      EXTENSION_JSON: 'extensions/hyc/roam-native-dark.json'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -19,7 +24,7 @@ jobs:
       - name: Checkout roam-depot repository
         uses: actions/checkout@v2
         with:
-          repository: $FORK/roam-depot
+          repository: ${{ env.FORK }}/roam-depot
           ref: main
           token: ${{ secrets.PAT }}
       - name: Sync fork
@@ -30,13 +35,13 @@ jobs:
           git checkout -B main upstream/main
           git push -f origin main
 
-      - name: Delete $BRANCH branch if exists
+      - name: Delete ${{ env.BRANCH }} branch if exists
         run: |
-          git push origin -d $BRANCH || true
+          git push origin -d ${{env.BRANCH}} || true
           
-      - name: Create ${{ github.ref }} branch from main
+      - name: Create ${{env.BRANCH}} branch from main
         run: |
-          git checkout -b ${{ github.ref }} origin/main
+          git checkout -b ${{env.BRANCH}} origin/main
 
       - name: Update $EXTENSION_JSON
         run: |
@@ -44,20 +49,20 @@ jobs:
 
       - name: Commit and Push changes
         run: |
-          git add $EXTENSION_JSON
+          git add ${{ env.EXTENSION_JSON }}
           git commit -m "Update source_commit to $GITHUB_SHA"
-          git push -u origin ${{ github.ref }}
+          git push -u origin ${{ env.BRANCH }}
       - name: Create pull request
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.PAT }}
           script: |
-            const branch = '$BRANCH'; // Replace with the branch you want to create a PR for
+            const branch = "${{ env.BRANCH }}"; // Replace with the branch you want to create a PR for
             const owner = 'Roam-Research';
             const repo = 'roam-depot';
-            const title = 'Update ${{ github.repository }}';
+            const title = 'Update ${{ env.BRANCH }}';
             const body = '';
-            const head = '$FORK:$BRANCH';
+            const head = '${{env.FORK}}:${{env.BRANCH}}';
             const base = 'main'; // Replace with the branch you want to merge the PR into
             const { data: pullRequest } = await github.pulls.create({
               owner,
