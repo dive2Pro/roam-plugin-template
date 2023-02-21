@@ -4,15 +4,14 @@
   "main": "extension.js",
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"NODE_ENV=dev vite build --watch\"",
-    "build": "tsc && vite build",
-    "preinstall": "npx only-allow pnpm"
+    "build": "tsc && vite build"
   },
   "license": "MIT",
   "dependencies": {
-    "roamjs-components": "^0.72.9",
-    "vite-plugin-externals": "^0.5.1"
+    "roamjs-components": "^0.72.9"
   },
   "devDependencies": {
+    "vite-plugin-externals": "^0.6.2",
     "@blueprintjs/core": "3.54.0",
     "@blueprintjs/select": "3.19.1",
     "@rollup/plugin-terser": "^0.2.1",
