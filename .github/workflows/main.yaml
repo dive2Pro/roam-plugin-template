@@ -13,8 +13,8 @@ jobs:
       USER: 'dive2Pro'
       EMAIL: 'toylucklebo@gmail.com'
       BRANCH: ''
-      EXTENSION_DIR: 'extensions/...'
-      EXTENSION_JSON: 'extensions/....json'
+      EXTENSION_DIR: 'extensions/hyc'
+      EXTENSION_JSON: 'extensions/hyc/${{ github.event.repository.name }}.json'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
