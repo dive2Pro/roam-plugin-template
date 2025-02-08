@@ -12,7 +12,7 @@ jobs:
       FORK: '${{ github.repository_owner }}'
       USER: 'dive2Pro'
       EMAIL: 'toylucklebo@gmail.com'
-      BRANCH: ''
+      BRANCH: '${{ github.event.repository.name }}'
       EXTENSION_DIR: 'extensions/hyc'
       EXTENSION_JSON: 'extensions/hyc/${{ github.event.repository.name }}.json'
     steps:
